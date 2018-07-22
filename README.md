@@ -165,7 +165,7 @@ Expectable status code: **200**, **400**
 
 > 사용자 단일 조회시 사용합니다.
 
-Request
+### Request
 
 ```http
 request params
