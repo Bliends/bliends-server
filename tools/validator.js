@@ -1,13 +1,28 @@
 exports.CL_USER = [
   {
-    property: 'username',
-    reg: /^(?=.*).{2,20}$/,
-    message: '올바른 사용자명을 기입해주세요.'
+    property: 'userid',
+    reg: /^(?=.*)[a-zA-Z0-9]{6,20}$/,
+    message: 'ID는 6자이상, 영문자, 숫자(선택)로 이루어져야 합니다.'
   },
   {
     property: 'password',
     reg: /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
-    message: '8자 이상의 영문, 숫자로 이루어진 암호를 입력해주세요'
+    message: '8자 이상의 영문, 숫자로 이루어진 암호를 기입해주세요.'
+  },
+  {
+    property: 'name',
+    reg: /^(?=.*)[^\s]{1,20}$/,
+    message: '20자 이내의 이름을 공백 없이 기입해주세요.'
+  },
+  {
+    property: 'type',
+    reg: /^(patient|caregiver)$/,
+    message: '계정 타입을 선택해주세요.'
+  },
+  {
+    property: 'phone',
+    reg: /^(?=.*)[0-9]{9,11}$/,
+    message: '올바른 전화번호를 기입해주세요.'
   }
 ]
 

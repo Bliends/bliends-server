@@ -18,6 +18,6 @@ router.get('/', controller.read)
 router.patch('/:id', filter, controller.update)
 
 // 사용자 삭제
-router.delete('/:id', filter, controller.update)
+router.delete('/:id', filter, controller.delete)
 
 module.exports = router

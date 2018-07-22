@@ -5,8 +5,11 @@ const Schema = mongoose.Schema
 
 const userSchema = new Schema(
   {
-    username: { type: String, required: true },
-    password: { type: String, required: true, select: false }
+    userid: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
+    name: { type: String, required: true },
+    type: { type: String, required: true }, // {"patient", "caregiver"}
+    phone: { type: String, required: true }
   },
   { timestamps: true, versionKey: false }
 )
@@ -16,18 +19,22 @@ userSchema.methods.comparePassword = function (password) {
   return false
 }
 
-userSchema.statics.create = function (data) {
+userSchema.statics.findByUserid = function (userid) {
+  return this.findOne({ userid })
+}
+
+userSchema.statics.createUser = function (data) {
   const user = Object.assign(data, { password: encryptPW(data.password) })
   return this.create(user)
 }
 
-userSchema.statics.update = function (id, data) {
+userSchema.statics.updateUser = function (id, data) {
   const user = Object.assign(data, { password: encryptPW(data.password) })
-  return this.findByIdAndUpdate(id, user, {})
+  return this.findByIdAndUpdate(id, user, { new: true })
 }
 
-userSchema.statics.login = function ({ username, password }) {
-  return this.findOne({ username, password: encryptPW(password) })
+userSchema.statics.login = function ({ userid, password }) {
+  return this.findOne({ userid, password: encryptPW(password) })
 }
 
 module.exports = mongoose.model('user', userSchema)
