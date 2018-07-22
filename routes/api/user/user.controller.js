@@ -47,6 +47,8 @@ exports.update = (req, res) => {
     .then(id => User.findById(id))
     .then(user => checkUserExist(user, false))
     .then(user => checkUserPerm(user, req))
+    .then(() => User.findByUserid(req.body.userid))
+    .then(user => checkUserExist(user, true))
     .then(() => checkProperty(CL_USER, req.body, false))
     .then(data => User.updateUser(req.params.id, data))
     .then(user => userRes(user, res))
