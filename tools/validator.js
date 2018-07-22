@@ -16,7 +16,7 @@ exports.CL_USER = [
   },
   {
     property: 'type',
-    reg: /^(patient|caregiver)$/,
+    reg: /^(P|C)$/,
     message: '계정 타입을 선택해주세요.'
   },
   {
