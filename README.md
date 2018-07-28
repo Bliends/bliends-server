@@ -142,25 +142,32 @@ request query
 
 #### 검색 쿼리 작성법
 
+- 조건이 한개일 시:
+
 ```json
-조건이 한개일 시:
 {
   "userid": "TestUser1"
 }
+```
 
-조건 AND일 시:
+- 조건 AND 일 시:
+
+```json
 {
   "$and": [
     { "userid": "TestUser1" },
     { "type": "P" }
   ]
 }
+```
 
-조건 OR일 시:
+- 조건 OR 일 시:
+
+```json
 {
   "$or": [
-      { "userid": "TestUser1" },
-      { "type": "P" }
+    { "userid": "TestUser1" },
+    { "type": "P" }
   ]
 }
 ```
