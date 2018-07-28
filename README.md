@@ -135,8 +135,34 @@ Expectable status code: **200**, **400**, **409**(Conflict)
 
 ```http
 request query
-    limit: number(가져올 자원 개수)
-    offset: number(건너 뛸 자원 개수)
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+    q?: string(JSON)검색 쿼리
+```
+
+#### 검색 쿼리 작성법
+
+```json
+조건이 한개일 시:
+{
+  "userid": "TestUser1"
+}
+
+조건 AND일 시:
+{
+  "$and": [
+    { "userid": "TestUser1" },
+    { "type": "P" }
+  ]
+}
+
+조건 OR일 시:
+{
+  "$or": [
+      { "userid": "TestUser1" },
+      { "type": "P" }
+  ]
+}
 ```
 
 ### Response

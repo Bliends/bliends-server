@@ -1,3 +1,4 @@
+const validator = require('validator')
 const { userRes, usersRes, errorRes } = require('../../../tools/responses')
 const { CL_USER, CL_PAGINATION, checkProperty } = require('../../../tools/validator')
 const { checkUserPerm } = require('../../../tools/permissions')
@@ -16,8 +17,8 @@ const checkUserExist = (user, isNot) => new Promise((resolve, reject) => {
 
 exports.create = async (req, res) => {
   try {
-    // 이미 존재하는 id인지 검사
-    const found = await User.findById(req.body.userid)
+    // 이미 존재하는 userid인지 검사
+    const found = await User.findByUserid(req.body.userid)
     await checkUserExist(found, true)
 
     // 프로퍼티 유효성 검사
@@ -50,9 +51,10 @@ exports.read = async (req, res) => {
   try {
     // limit, offset 받아내기
     const { limit, offset } = await checkProperty(CL_PAGINATION, req.query, false)
+    const q = validator.isJSON(req.query.q || '') ? JSON.parse(req.query.q) : {}
 
     // user 리스트 limit, offset 적용해서 불러오기
-    const users = await User.find()
+    const users = await User.find(q)
       .limit(limit ? parseInt(limit, 10) : 0)
       .skip(offset ? parseInt(offset, 10) : 0)
 
