@@ -14,53 +14,90 @@ const checkUserExist = (user, isNot) => new Promise((resolve, reject) => {
   return reject(err)
 })
 
-exports.create = (req, res) => {
-  Promise.resolve(req.body.userid)
-    .then(userid => User.findByUserid(userid))
-    .then(user => checkUserExist(user, true))
-    .then(() => checkProperty(CL_USER, req.body, true))
-    .then(data => User.createUser(data))
-    .then(user => userRes(user, res))
-    .catch(err => errorRes(err, res))
+exports.create = async (req, res) => {
+  try {
+    // 이미 존재하는 id인지 검사
+    const found = await User.findById(req.body.userid)
+    await checkUserExist(found, true)
+
+    // 프로퍼티 유효성 검사
+    const data = await checkProperty(CL_USER, req.body, true)
+
+    // user 생성
+    const user = await User.createUser(data)
+
+    // response
+    return userRes(user, res)
+  } catch (err) {
+    return errorRes(err, res)
+  }
 }
 
-exports.retreive = (req, res) => {
-  Promise.resolve(req.params.id)
-    .then(id => User.findById(id))
-    .then(user => checkUserExist(user, false))
-    .then(user => userRes(user, res))
-    .catch(err => errorRes(err, res))
+exports.retreive = async (req, res) => {
+  try {
+    // user 찾고 있는지 검사
+    const user = await User.findById(req.params.id)
+    await checkUserExist(user, false)
+
+    // response
+    return userRes(user, res)
+  } catch (err) {
+    return errorRes(err, res)
+  }
 }
 
-exports.read = (req, res) => {
-  Promise.resolve(req.query)
-    .then(query => checkProperty(CL_PAGINATION, query, true))
-    .then(({ limit, offset }) => User.find()
-      .limit(parseInt(limit, 10))
-      .skip(parseInt(offset, 10)))
-    .then(users => usersRes(users, res))
-    .catch(err => errorRes(err, res))
+exports.read = async (req, res) => {
+  try {
+    // limit, offset 받아내기
+    const { limit, offset } = await checkProperty(CL_PAGINATION, req.query, false)
+
+    // user 리스트 limit, offset 적용해서 불러오기
+    const users = await User.find()
+      .limit(limit ? parseInt(limit, 10) : 0)
+      .skip(offset ? parseInt(offset, 10) : 0)
+
+    // response
+    return usersRes(users, res)
+  } catch (err) {
+    return errorRes(err, res)
+  }
 }
 
-exports.update = (req, res) => {
-  Promise.resolve(req.params.id)
-    .then(id => User.findById(id))
-    .then(user => checkUserExist(user, false))
-    .then(user => checkUserPerm(user, req))
-    .then(() => User.findByUserid(req.body.userid))
-    .then(user => checkUserExist(user, true))
-    .then(() => checkProperty(CL_USER, req.body, false))
-    .then(data => User.updateUser(req.params.id, data))
-    .then(user => userRes(user, res))
-    .catch(err => errorRes(err, res))
+exports.update = async (req, res) => {
+  try {
+    // user 찾고
+    const found = await User.findById(req.params.id)
+
+    // 존재, 퍼미션 검사
+    await checkUserExist(found, false)
+    await checkUserPerm(found, req)
+
+    // 수정할려는 데이터 유효성 검사 후 업데이트
+    const data = await checkProperty(CL_USER, req.body, false)
+    const user = await User.updateUser(req.params.id, data)
+
+    // response
+    return userRes(user, res)
+  } catch (err) {
+    return errorRes(err, res)
+  }
 }
 
-exports.delete = (req, res) => {
-  Promise.resolve(req.params.id)
-    .then(id => User.findById(id))
-    .then(user => checkUserExist(user, false))
-    .then(user => checkUserPerm(user, req))
-    .then(user => user.remove())
-    .then(user => userRes(user, res))
-    .catch(err => errorRes(err, res))
+exports.delete = async (req, res) => {
+  try {
+    // user 찾고
+    const found = await User.findById(req.params.id)
+
+    // 존재, 퍼미션 검사
+    await checkUserExist(found, false)
+    await checkUserPerm(found, req)
+
+    // 삭제
+    const user = await found.remove()
+
+    // response
+    return userRes(user, res)
+  } catch (err) {
+    return errorRes(err, res)
+  }
 }

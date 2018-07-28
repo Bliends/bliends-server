@@ -29,7 +29,7 @@ userSchema.statics.createUser = function (data) {
 }
 
 userSchema.statics.updateUser = function (id, data) {
-  const user = Object.assign(data, { password: encryptPW(data.password) })
+  const user = Object.assign(data, { password: encryptPW(data.password), userid: undefined })
   return this.findByIdAndUpdate(id, user, { new: true })
 }
 

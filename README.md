@@ -204,7 +204,6 @@ request headers
 request params
     object_id: string(_id)
 request body
-    userid?: string(대소문자, 숫자 6~20자)
     password?: string(대소문자, 숫자 필수, 기호 선택)
     name?: string(20자 이내 공백 불가)
     type?: string('P' or 'C') P: 환자, C: 보호자
@@ -215,7 +214,7 @@ request body
 
 > 수정 된 정보를 응답합니다.
 
-Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404**, **409**(Conflict)
+Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404**
 
 ```json
 {
