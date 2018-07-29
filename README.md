@@ -22,7 +22,7 @@ HTTP Status code 는 **각 상황에 따라 다르게 전달**됩니다.
 
 ### Response body
 
-```json
+```js
 {
   "success": false,
   "message": "Error message"
@@ -49,7 +49,7 @@ request body
 
 Expectable status code: **200**, **403**
 
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
@@ -72,7 +72,7 @@ request headers
 
 Expectable status code: **200**, **401**(Unauthorized)
 
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
@@ -115,7 +115,7 @@ request body
 Expectable status code: **200**, **400**, **409**(Conflict)
 
 #### `type`이 `P` 일 때
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
@@ -132,7 +132,7 @@ Expectable status code: **200**, **400**, **409**(Conflict)
 ```
 
 #### `type`이 `C` 일 때
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
@@ -167,7 +167,7 @@ request query
 
 - 조건이 한개일 시:
 
-```json
+```js
 {
   "userid": "TestUser1"
 }
@@ -175,7 +175,7 @@ request query
 
 - 조건 AND 일 시:
 
-```json
+```js
 {
   "$and": [
     { "userid": "TestUser1" },
@@ -186,7 +186,7 @@ request query
 
 - 조건 OR 일 시:
 
-```json
+```js
 {
   "$or": [
     { "userid": "TestUser1" },
@@ -199,7 +199,7 @@ request query
 
 Expectable status code: **200**, **400**
 
-```json
+```js
 {
   "success": true,
   "mssage": "SUCCESS",
@@ -233,7 +233,7 @@ request params
 
 Expectable status code: **200**, **400**, **404**
 
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
@@ -274,7 +274,7 @@ request body
 
 Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404**
 
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
@@ -310,7 +310,7 @@ request params
 
 Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404**
 
-```json
+```js
 {
   "success": true,
   "message": "SUCCESS",
