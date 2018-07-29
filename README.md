@@ -105,12 +105,16 @@ request body
     phone: string('-' 를 제외한 번호 9~11자)
 ```
 
+- `type`이 `P` 일 때: `phone`은 `type`이 `P`인 사용자와 중복될 수 없습니다.
+- `type`이 `C` 일 때: `type`이 `P`인 사용자의 `phone`을 기입합니다.
+
 ### Response
 
 > 성공시 가입 완료된 사용자 정보를 응답합니다.
 
 Expectable status code: **200**, **400**, **409**(Conflict)
 
+#### `type`이 `P` 일 때
 ```json
 {
   "success": true,
@@ -119,13 +123,32 @@ Expectable status code: **200**, **400**, **409**(Conflict)
     "_id": "5b546b3ec25c875215905acd",
     "userid": "TestUser2",
     "name": "홍길동",
-    "type": "C",
+    "type": "P",
     "phone": "01012341234",
     "createdAt": "2018-07-22T11:32:14.785Z",
     "updatedAt": "2018-07-22T11:32:14.785Z"
   }
 }
 ```
+
+#### `type`이 `C` 일 때
+```json
+{
+  "success": true,
+  "message": "SUCCESS",
+  "user": {
+      "_id": "5b5d3e3b91c72715a04e311f",
+      "userid": "TestUser1",
+      "name": "김범수",
+      "type": "C",
+      "link": "5b546b3ec25c875215905acd", // 환자 _id
+      "createdAt": "2018-07-29T04:10:35.098Z",
+      "updatedAt": "2018-07-29T04:10:35.098Z"
+		},
+}
+```
+
+- 보호자가 회원가입을 완료하면 환자 또한 `link` property에 보호자의 `_id`를 가지게 됩니다.
 
 ## `GET /users`
 
@@ -186,7 +209,8 @@ Expectable status code: **200**, **400**
       "userid": "TestUser2",
       "name": "홍길동",
       "type": "C",
-      "phone": "01012341234",
+      "phone": "01012341234", // 보호자일 때에는 존재하지 않음
+      "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
       "createdAt": "2018-07-22T11:32:14.785Z",
       "updatedAt": "2018-07-22T11:32:14.785Z"
     }
@@ -218,7 +242,8 @@ Expectable status code: **200**, **400**, **404**
     "userid": "TestUser1",
     "name": "홍길동",
     "type": "P",
-    "phone": "01012341234",
+    "phone": "01012341234", // 보호자일 때에는 존재하지 않음
+    "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
     "createdAt": "2018-07-22T10:58:05.209Z",
     "updatedAt": "2018-07-22T10:58:05.209Z"
   }
@@ -258,7 +283,8 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
     "userid": "TestUser1",
     "name": "길동이",
     "type": "C",
-    "phone": "01012341234",
+    "phone": "01012341234", // 보호자일 때에는 존재하지 않음
+    "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
     "createdAt": "2018-07-22T10:58:05.209Z",
     "updatedAt": "2018-07-22T10:58:05.209Z"
   }
@@ -293,7 +319,8 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
     "userid": "TestUser1",
     "name": "길동이",
     "type": "P",
-    "phone": "01012341234",
+    "phone": "01012341234", // 보호자일 때에는 존재하지 않음
+    "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
     "createdAt": "2018-07-22T10:58:05.209Z",
     "updatedAt": "2018-07-22T10:58:05.209Z"
   }

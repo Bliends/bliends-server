@@ -108,7 +108,16 @@ exports.update = async (req, res) => {
 
     // 수정할려는 데이터 유효성 검사 후 업데이트
     const data = await checkProperty(CL_USER, req.body, false)
-    const user = await User.updateUser(req.params.id, data)
+    let user = await User.updateUser(found, data)
+
+    // 수정된 user이 보호자이면 전화번호로 환자와 linking
+    if (user.type === 'C' && data.phone) user = await validateCaregiver(user)
+
+    // 환자라면 휴대폰 번호 중복검사
+    if (user.type === 'P' && data.phone) await User.findByPhone(req.body.phone).then(checkPhoneConflict)
+
+    // user 저장
+    await user.save()
 
     // response
     return userRes(user, res)
