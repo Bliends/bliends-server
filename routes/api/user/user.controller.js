@@ -15,17 +15,49 @@ const checkUserExist = (user, isNot) => new Promise((resolve, reject) => {
   return reject(err)
 })
 
+const checkPhoneConflict = user => new Promise((resolve, reject) => {
+  if (!user) return resolve(user)
+  const err = new Error('이미 등록 된 전화번호입니다.')
+  err.code = 409
+  return reject(err)
+})
+
+const validateCaregiver = async user => {
+  const found = await User.findOne({ type: 'P', phone: user.phone })
+  if (found && !found.link) {
+    await found.linking(user)
+    return user.linking(found)
+  }
+  const err = new Error(`${found ? '이미 보호자가 등록된' : '존재하지 않는'} 환자입니다.`)
+  err.code = found ? 409 : 400
+  return Promise.reject(err)
+}
+
 exports.create = async (req, res) => {
   try {
-    // 이미 존재하는 userid인지 검사
-    const found = await User.findByUserid(req.body.userid)
-    await checkUserExist(found, true)
+    // userid, phone 중복 정보
+    const [conflictId, conflictPhone] = await Promise.all([
+      User.findByUserid(req.body.userid),
+      User.findByPhone(req.body.phone)
+    ])
+
+    // 일단 id 중복검사
+    await checkUserExist(conflictId, true)
 
     // 프로퍼티 유효성 검사
     const data = await checkProperty(CL_USER, req.body, true)
 
     // user 생성
-    const user = await User.createUser(data)
+    let user = await User.createUser(data)
+
+    // 생성된 user이 보호자이면 전화번호로 환자와 linking
+    if (user.type === 'C') user = await validateCaregiver(user)
+
+    // 환자라면 휴대폰 번호 중복검사
+    if (user.type === 'P') await checkPhoneConflict(conflictPhone)
+
+    // user 저장
+    await user.save()
 
     // response
     return userRes(user, res)

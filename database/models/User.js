@@ -9,7 +9,8 @@ const userSchema = new Schema(
     password: { type: String, required: true, select: false },
     name: { type: String, required: true },
     type: { type: String, required: true }, // {"patient", "caregiver"}
-    phone: { type: String, required: true }
+    phone: String,
+    link: { type: Schema.Types.ObjectId, ref: 'user' }
   },
   { timestamps: true, versionKey: false }
 )
@@ -19,13 +20,22 @@ userSchema.methods.comparePassword = function (password) {
   return false
 }
 
+userSchema.methods.linking = function (user) {
+  this.link = user._id
+  return this.save()
+}
+
 userSchema.statics.findByUserid = function (userid) {
   return this.findOne({ userid })
 }
 
+userSchema.statics.findByPhone = function (phone) {
+  return this.findOne({ phone })
+}
+
 userSchema.statics.createUser = function (data) {
   const user = Object.assign(data, { password: encryptPW(data.password) })
-  return this.create(user)
+  return new this(user)
 }
 
 userSchema.statics.updateUser = function (id, data) {
