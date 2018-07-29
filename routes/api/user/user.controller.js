@@ -10,7 +10,7 @@ const checkUserExist = (user, isNot) => new Promise((resolve, reject) => {
   if (isNot ? !user : user) return resolve(user)
 
   // 사용자가 없어야하는데 에러라면?
-  const err = new Error(`${isNot ? '이미 존재하는' : '존재하지 않는'} 사용자입니다.`)
+  const err = new Error(`${isNot ? '이미 등록된 ID' : '존재하지 않는 사용자'} 입니다.`)
   err.code = isNot ? 409 : 404
   return reject(err)
 })
