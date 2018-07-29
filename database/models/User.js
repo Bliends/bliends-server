@@ -9,11 +9,18 @@ const userSchema = new Schema(
     password: { type: String, required: true, select: false },
     name: { type: String, required: true },
     type: { type: String, required: true }, // {"patient", "caregiver"}
-    phone: String,
+    phone: { type: String, unique: true },
     link: { type: Schema.Types.ObjectId, ref: 'user' }
   },
   { timestamps: true, versionKey: false }
 )
+
+userSchema.pre('save', function (next) {
+  if (this.type === 'C') {
+    this.phone = undefined
+  }
+  next()
+})
 
 userSchema.methods.comparePassword = function (password) {
   if (this.password === encryptPW(password)) return true
