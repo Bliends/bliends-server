@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Okok7882@",
+    "database": "bliends",
+    "host": "localhost",
+    "port": 3306,
+    "dialect": "mysql"
+  }
+}

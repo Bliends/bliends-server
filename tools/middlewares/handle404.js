@@ -1,3 +1,9 @@
-const handle404 = (req, res) => res.status(404).send({ success: false, message: 'Not found' })
+const { errorRes } = require('../responses');
+
+const handle404 = (req, res) => {
+    const err = new Error('NOT_FOUND')
+    err.code = 404
+    return errorRes(err, res)
+}
 
 module.exports = handle404

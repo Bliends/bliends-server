@@ -7,7 +7,7 @@ exports.CL_USER = [
   {
     property: 'password',
     reg: /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{8,20}$/,
-    message: '8자 이상의 영문, 숫자로 이루어진 암호를 기입해주세요.'
+    message: '8 ~ 20자의 영문, 숫자로 이루어진 암호를 기입해주세요.'
   },
   {
     property: 'name',
@@ -36,6 +36,19 @@ exports.CL_PAGINATION = [
     property: 'offset',
     reg: /^\d+$/,
     message: "Cannot find property 'offset' in request params"
+  }
+]
+
+exports.CL_LOCATION = [
+  {
+    property: 'latitude',
+    reg: /^\d+\.\d+$/,
+    message: "올바른 위도(latitude) 형식 (0.0)이 아닙니다."
+  },
+  {
+    property: 'longitude',
+    reg: /^\d+\.\d+$/,
+    message: "올바른 경도(longitude) 형식 (0.0)이 아닙니다."
   }
 ]
 

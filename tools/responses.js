@@ -1,7 +1,5 @@
-exports.userRes = (user, res) => res.send({ success: true, message: 'SUCCESS', user })
+exports.objectRes = (code, object, res) => res.status(code || 200).send(object)
 
-exports.usersRes = (users, res) => res.send({ success: true, mssage: 'SUCCESS', users })
+exports.noContentRes = res => res.status(204).send()
 
-exports.tokenRes = (token, res) => res.send({ success: true, message: 'SUCCESS', token })
-
-exports.errorRes = (err, res) => res.status(err.code || 400).send({ success: false, message: err.message })
+exports.errorRes = (err, res) => res.status(err.code || 400).send({ message: err.message })

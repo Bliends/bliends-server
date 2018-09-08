@@ -1,8 +1,8 @@
 const { sign } = require('jsonwebtoken')
 const constants = require('../../../config/constants')
-const { tokenRes, userRes, errorRes } = require('../../../tools/responses')
+const { objectRes, errorRes } = require('../../../tools/responses')
 
-const User = require('../../../database/models/User')
+const models = require('../../../database/models')
 
 const checkUserExist = user => new Promise((resolve, reject) => {
   if (user) return resolve(user)
@@ -12,17 +12,17 @@ const checkUserExist = user => new Promise((resolve, reject) => {
 })
 
 const obtainToken = user => {
-  const token = sign({ id: user._id }, constants.JWT_SALT)
+  const token = sign({ id: user.id }, constants.JWT_SALT)
   return Promise.resolve(token)
 }
 
 exports.login = (req, res) => {
   Promise.resolve(req.body)
-    .then(data => User.login(data))
+    .then(data => models.user.login(data))
     .then(user => checkUserExist(user))
     .then(user => obtainToken(user))
-    .then(token => tokenRes(token, res))
+    .then(token => objectRes(200, { token }, res))
     .catch(err => errorRes(err, res))
 }
 
-exports.me = (req, res) => userRes(req.user, res)
+exports.me = (req, res) => objectRes(200, req.user, res)

@@ -9,7 +9,7 @@ const router = Router()
 router.post('/', controller.create)
 
 // 사용자 조회
-router.get('/:id', controller.retreive)
+router.get('/:id', controller.retrieve)
 
 // 사용자 리스트 조회
 router.get('/', controller.read)
