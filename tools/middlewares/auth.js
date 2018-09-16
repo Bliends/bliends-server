@@ -1,4 +1,5 @@
 const { verify } = require('jsonwebtoken')
+const { errorRes } = require('../responses');
 const constants = require('../../config/constants')
 
 const models = require('../../database/models')
@@ -30,5 +31,7 @@ exports.filter = (req, res, next) => {
   if (req.user) {
     return next()
   }
-  return res.status(401).send({ success: false, message: 'UNAUTHORIZED' })
+  const err = new Error('로그인이 필요합니다.')
+  err.code = 401
+  return errorRes(err, res)
 }

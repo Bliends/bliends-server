@@ -2,6 +2,8 @@
 
 ## Index
 
+### Error response
+
 ### `/sign`
 
 - `POST /sign`
@@ -11,9 +13,29 @@
 
 - `POST /users`
 - `GET /users`
-- `GET /users/{object_id}`
-- `PATCH /users/{object_id}`
-- `DELETE /users/{object_id}`
+- `GET /users/{user_id}`
+- `PATCH /users/{user_id}`
+- `DELETE /users/{user_id}`
+
+### `/groups`
+
+- `GET /groups`
+- `GET /groups/{group_id}`
+
+### `/labels`
+
+- `POST /labels`
+- `GET /labels`
+- `GET /labels/{label_id}`
+- `PATCH /labels/{label_id}`
+- `DELETE /labels/{label_id}`
+
+### `/activitylogs`
+
+- `POST /activitylogs`
+- `GET /activitylogs`
+- `GET /activitylogs/{activitylog_id}`
+- `DELETE /activitylogs/{activitylog_id}`
 
 # Error response
 
@@ -24,7 +46,6 @@ HTTP Status code 는 **각 상황에 따라 다르게 전달**됩니다.
 
 ```js
 {
-  "success": false,
   "message": "Error message"
 }
 ```
@@ -51,8 +72,6 @@ Expectable status code: **200**, **403**
 
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6I..."
 }
 ```
@@ -74,17 +93,13 @@ Expectable status code: **200**, **401**(Unauthorized)
 
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
-  "user": {
-    "_id": "5b54633d46b11950198048d7",
-    "userid": "TestUser1",
-    "name": "홍길동",
-    "type": "P",
-    "phone": "01012341234",
-    "createdAt": "2018-07-22T10:58:05.209Z",
-    "updatedAt": "2018-07-22T10:58:05.209Z"
-  }
+  "id": 1,
+  "userid": "TestUser1",
+  "name": "홍길동",
+  "type": "P",
+  "phone": "01012341234",
+  "createdAt": "2018-07-22T10:58:05.209Z",
+  "updatedAt": "2018-07-22T10:58:05.209Z"
 }
 ```
 
@@ -117,38 +132,30 @@ Expectable status code: **200**, **400**, **409**(Conflict)
 #### `type`이 `P` 일 때
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
-  "user": {
-    "_id": "5b546b3ec25c875215905acd",
-    "userid": "TestUser2",
-    "name": "홍길동",
-    "type": "P",
-    "phone": "01012341234",
-    "createdAt": "2018-07-22T11:32:14.785Z",
-    "updatedAt": "2018-07-22T11:32:14.785Z"
-  }
+  "id": 1,
+  "userid": "TestUser2",
+  "name": "홍길동",
+  "type": "P",
+  "phone": "01012341234",
+  "createdAt": "2018-07-22T11:32:14.785Z",
+  "updatedAt": "2018-07-22T11:32:14.785Z"
 }
 ```
 
 #### `type`이 `C` 일 때
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
-  "user": {
-      "_id": "5b5d3e3b91c72715a04e311f",
-      "userid": "TestUser1",
-      "name": "김범수",
-      "type": "C",
-      "link": "5b546b3ec25c875215905acd", // 환자 _id
-      "createdAt": "2018-07-29T04:10:35.098Z",
-      "updatedAt": "2018-07-29T04:10:35.098Z"
-		},
+  "id": 1,
+  "userid": "TestUser1",
+  "name": "김범수",
+  "type": "C",
+  "phone": "01012341234",
+  "createdAt": "2018-07-29T04:10:35.098Z",
+  "updatedAt": "2018-07-29T04:10:35.098Z"
 }
 ```
 
-- 보호자가 회원가입을 완료하면 환자 또한 `link` property에 보호자의 `_id`를 가지게 됩니다.
+* 환자와 보호자가 매칭되면 `group`이 생성되고, `label`이나 `activitylog`에 `group_id`컬럼으로 관리됩니다.
 
 ## `GET /users`
 
@@ -200,25 +207,20 @@ request query
 Expectable status code: **200**, **400**
 
 ```js
-{
-  "success": true,
-  "mssage": "SUCCESS",
-  "users": [
-    {
-      "_id": "5b546b3ec25c875215905acd",
-      "userid": "TestUser2",
-      "name": "홍길동",
-      "type": "C",
-      "phone": "01012341234", // 보호자일 때에는 존재하지 않음
-      "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
-      "createdAt": "2018-07-22T11:32:14.785Z",
-      "updatedAt": "2018-07-22T11:32:14.785Z"
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "userid": "TestUser2",
+    "name": "홍길동",
+    "type": "C",
+    "phone": "01012341234", // 보호자일 때는 환자 전화번호
+    "createdAt": "2018-07-22T11:32:14.785Z",
+    "updatedAt": "2018-07-22T11:32:14.785Z"
+  }
+]
 ```
 
-## `GET /users/{object_id}`
+## `GET /users/{user_id}`
 
 > 사용자 단일 조회시 사용합니다.
 
@@ -226,7 +228,7 @@ Expectable status code: **200**, **400**
 
 ```http
 request params
-    object_id: string(_id)
+    user_id: number(PK)
 ```
 
 ### Response
@@ -235,22 +237,17 @@ Expectable status code: **200**, **400**, **404**
 
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
-  "user": {
-    "_id": "5b54633d46b11950198048d7",
-    "userid": "TestUser1",
-    "name": "홍길동",
-    "type": "P",
-    "phone": "01012341234", // 보호자일 때에는 존재하지 않음
-    "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
-    "createdAt": "2018-07-22T10:58:05.209Z",
-    "updatedAt": "2018-07-22T10:58:05.209Z"
-  }
+  "id": 1,
+  "userid": "TestUser2",
+  "name": "홍길동",
+  "type": "C",
+  "phone": "01012341234", // 보호자일 때는 환자 전화번호
+  "createdAt": "2018-07-22T11:32:14.785Z",
+  "updatedAt": "2018-07-22T11:32:14.785Z"
 }
 ```
 
-## `PATCH /users/{object_id}`
+## `PATCH /users/{user_id}`
 
 > 사용자 정보 수정시 사용합니다. (본인만 수정가능)
 
@@ -260,7 +257,7 @@ Expectable status code: **200**, **400**, **404**
 request headers
     Authorization: string(token)
 request params
-    object_id: string(_id)
+    user_id: number(PK)
 request body
     password?: string(대소문자, 숫자 필수, 기호 선택)
     name?: string(20자 이내 공백 불가)
@@ -276,22 +273,17 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
 
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
-  "user": {
-    "_id": "5b54633d46b11950198048d7",
-    "userid": "TestUser1",
-    "name": "길동이",
-    "type": "C",
-    "phone": "01012341234", // 보호자일 때에는 존재하지 않음
-    "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
-    "createdAt": "2018-07-22T10:58:05.209Z",
-    "updatedAt": "2018-07-22T10:58:05.209Z"
-  }
+  "id": 1,
+  "userid": "TestUser2",
+  "name": "홍길동",
+  "type": "C",
+  "phone": "01012341234", // 보호자일 때는 환자 전화번호
+  "createdAt": "2018-07-22T11:32:14.785Z",
+  "updatedAt": "2018-07-22T11:32:14.785Z"
 }
 ```
 
-## `DELETE /users/{object_id}`
+## `DELETE /users/{user_id}`
 
 > 회원탈퇴시 사용합니다. (본인만 삭제가능)
 
@@ -301,28 +293,516 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
 request headers
     Authorization: string(token)
 request params
-    object_id: string(_id)
+    user_id: number(PK)
 ```
 
 ### Response
 
-> 삭제된 사용자 정보를 응답합니다. 재 접근할 수 없습니다.
+> 사용자를 삭제합니다. 재 접근할 수 없습니다.
+
+Expectable status code: **204**, **400**, **401**(Unauthorized), **403**, **404**
+
+```
+No Contents
+```
+
+# `/groups`
+
+* Group은 환자(patient)와 보호자(caregiver)가 매칭되면 **자동으로 생성**됩니다.
+
+## `GET /groups`
+
+> 그룹 리스트 조회 시 사용합니다.
+
+### request
+
+```http
+request query
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+    q?: string(JSON)검색 쿼리
+```
+
+#### 검색 쿼리 작성법
+
+- 조건이 한개일 시:
+
+```js
+{
+  "patient_id": 1
+}
+```
+
+- 조건 AND 일 시:
+
+```js
+{
+  "$and": [
+    { "patient_id": 1 },
+    { "caregiver_id": 5 }
+  ]
+}
+```
+
+- 조건 OR 일 시:
+
+```js
+{
+  "$or": [
+    { "patient_id": 1 },
+    { "caregiver_id": 5 }
+  ]
+}
+```
+
+### response
+
+> 그룹 리스트를 응답합니다.
+
+Expectable status code: **200**, **400**
+
+```js
+[
+  {
+    "id": 1,
+    "created_at": "2018-09-16T05:23:02.000Z",
+    "updated_at": "2018-09-16T05:23:02.000Z",
+    "patient_id": 1,
+    "caregiver_id": 2,
+    "patient": {
+      "id": 1,
+      "userid": "testid1",
+      "name": "테스트1",
+      "type": "P",
+      "phone": "01012345678",
+      "created_at": "2018-09-16T05:22:54.000Z",
+      "updated_at": "2018-09-16T05:22:54.000Z"
+    },
+    "caregiver": {
+      "id": 2,
+      "userid": "testid2",
+      "name": "테스트2",
+      "type": "C",
+      "phone": "01012345678",
+      "created_at": "2018-09-16T05:23:02.000Z",
+      "updated_at": "2018-09-16T05:23:02.000Z"
+    }
+  }
+]
+```
+
+## `GET /groups/{group_id}`
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    group_id: number(PK)
+```
+
+### response
+
+Expectable status code: **200**, **400**, **401**, **403**, **404**
+
+```js
+{
+  "id": 1,
+  "created_at": "2018-09-16T05:23:02.000Z",
+  "updated_at": "2018-09-16T05:23:02.000Z",
+  "patient_id": 1,
+  "caregiver_id": 2,
+  "patient": {
+    "id": 1,
+    "userid": "testid1",
+    "name": "테스트1",
+    "type": "P",
+    "phone": "01012345678",
+    "created_at": "2018-09-16T05:22:54.000Z",
+    "updated_at": "2018-09-16T05:22:54.000Z"
+  },
+  "caregiver": {
+    "id": 2,
+    "userid": "testid2",
+    "name": "테스트2",
+    "type": "C",
+    "phone": "01012345678",
+    "created_at": "2018-09-16T05:23:02.000Z",
+    "updated_at": "2018-09-16T05:23:02.000Z"
+  }
+}
+```
+
+# `/labels`
+
+## `POST /labels`
+
+> 라벨 생성 시에 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request body
+    name: string
+    latitude: number(float)
+    longitude: number(float)
+    importance: number([1|2|3], 높을수록 중요)
+```
+
+### response
+
+> 생성된 라벨 정보를 응답합니다.
+
+Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404**
+
+```js
+{
+  "id": 2,
+  "name": "집",
+  "latitude": 186.44002,
+  "longitude": 32.5005321,
+  "importance": 3,
+  "updated_at": "2018-09-16T08:21:55.236Z",
+  "created_at": "2018-09-16T08:21:55.210Z",
+  "group_id": 1
+}
+```
+
+## `GET /labels`
+
+> 라벨 리스트 조회 시 사용합니다.
+
+### request
+
+```http
+request query
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+    q?: string(JSON)검색 쿼리
+```
+
+#### 검색 쿼리 작성법
+
+- 조건이 한개일 시:
+
+```js
+{
+  "name": "집"
+}
+```
+
+- 조건 AND 일 시:
+
+```js
+{
+  "$and": [
+    { "name": "집" },
+    { "group_id": 5 }
+  ]
+}
+```
+
+- 조건 OR 일 시:
+
+```js
+{
+  "$or": [
+    { "name": "집" },
+    { "group_id": 12 }
+  ]
+}
+```
+
+### response
+
+Expectable status code: **200**, **400**
+
+```js
+[
+  {
+    "id": 2,
+    "name": "집",
+    "latitude": 186.44,
+    "longitude": 32.5005,
+    "importance": 3,
+    "created_at": "2018-09-16T08:21:55.000Z",
+    "updated_at": "2018-09-16T08:21:55.000Z",
+    "group_id": 1
+  }
+]
+```
+
+## `GET /labels/{label_id}`
+
+> 라벨 조회 시 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    label_id: number(PK)
+```
+
+### response
+
+Expectable status code: **200**, **400**, **401**, **403**, **404**
+
+```js
+{
+  "id": 1,
+  "name": "흠",
+  "latitude": 186.44002,
+  "longitude": 32.5005321,
+  "importance": 3,
+  "created_at": "2018-09-16T05:26:50.000Z",
+  "updated_at": "2018-09-16T10:03:03.592Z",
+  "group_id": 1
+}
+```
+
+## `PATCH /labels/{label_id}`
+
+> 라벨 정보를 수정합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    label_id: number(PK)
+request body
+    name?: string
+    latitude?: number(float)
+    longitude?: number(float)
+    importance?: number([1|2|3], 높을수록 중요)
+```
+
+### Response
+
+> 수정 된 정보를 응답합니다.
 
 Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404**
 
 ```js
 {
-  "success": true,
-  "message": "SUCCESS",
-  "user": {
-    "_id": "5b54633d46b11950198048d7",
-    "userid": "TestUser1",
-    "name": "길동이",
-    "type": "P",
-    "phone": "01012341234", // 보호자일 때에는 존재하지 않음
-    "link": "5b546b3ec25c875215905acd", // 환자 -> 보호자 _id, 보호자 -> 환자 _id
-    "createdAt": "2018-07-22T10:58:05.209Z",
-    "updatedAt": "2018-07-22T10:58:05.209Z"
+  "id": 1,
+  "name": "흠",
+  "latitude": 186.44002,
+  "longitude": 32.5005321,
+  "importance": 3,
+  "created_at": "2018-09-16T05:26:50.000Z",
+  "updated_at": "2018-09-16T10:03:03.592Z",
+  "group_id": 1
+}
+```
+
+## `DELETE /labels/{label_id}`
+
+> 라벨을 삭제합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    label_id: number(PK)
+```
+
+### response
+
+> 라벨을 삭제합니다. 재 접근할 수 없습니다.
+
+Expectable status code: **204**, **400**, **401**(Unauthorized), **403**, **404**
+
+```
+No Contents
+```
+
+# `/activitylogs`
+
+## `POST /activitylogs`
+
+> 활동 로그를 새로 추가합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request body
+    label: number(PK) // 라벨ID. 없으면 0
+    latitude: number(float)
+    longitude: number(float)
+    payments: number(int) // 결제액. 없으면 0
+```
+
+### response
+
+> 생성된 활동 로그를 응답합니다.
+
+Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404**
+
+```js
+{
+  "id": 6,
+  "latitude": 170.3,
+  "longitude": 32.5005,
+  "payments": 1000,
+  "created_at": "2018-09-16T10:22:48.000Z",
+  "updated_at": "2018-09-16T10:22:48.000Z",
+  "group_id": 1,
+  "label_id": 2, // 라벨 미지정(0)일 시 null
+  "label": {     // 라벨 미지정(0)일 시 null
+    "id": 2,
+    "name": "흠",
+    "latitude": 186.44,
+    "longitude": 32.5005,
+    "importance": 3,
+    "created_at": "2018-09-16T08:21:55.000Z",
+    "updated_at": "2018-09-16T08:21:55.000Z",
+    "group_id": 1
   }
 }
+```
+
+## `GET /activitylogs`
+
+> 활동로그 리스트 조회 시 사용합니다.
+
+### request
+
+```http
+request query
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+    q?: string(JSON)검색 쿼리
+```
+
+#### 검색 쿼리 작성법
+
+- 조건이 한개일 시:
+
+```js
+{
+  "label_id": 12
+}
+```
+
+- 조건 AND 일 시:
+
+```js
+{
+  "$and": [
+    { "label_id": 12 },
+    { "group_id": 5 }
+  ]
+}
+```
+
+- 조건 OR 일 시:
+
+```js
+{
+  "$or": [
+    { "label_id": 12 },
+    { "group_id": 19 }
+  ]
+}
+```
+
+### response
+
+Expectable status code: **200**, **400**
+
+```js
+[
+  {
+    "id": 6,
+    "latitude": 170.3,
+    "longitude": 32.5005,
+    "payments": 1000,
+    "created_at": "2018-09-16T10:22:48.000Z",
+    "updated_at": "2018-09-16T10:22:48.000Z",
+    "group_id": 1,
+    "label_id": 2, // 라벨 미지정(0)일 시 null
+    "label": {     // 라벨 미지정(0)일 시 null
+      "id": 2,
+      "name": "흠",
+      "latitude": 186.44,
+      "longitude": 32.5005,
+      "importance": 3,
+      "created_at": "2018-09-16T08:21:55.000Z",
+      "updated_at": "2018-09-16T08:21:55.000Z",
+      "group_id": 1
+    }
+  }
+]
+```
+
+## `GET /activitylogs/{activitylog_id}`
+
+> 활동로그 조회시 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    activitylog_id: number(PK)
+```
+
+### response
+
+Expectable status code: **200**, **400**, **401**, **403**, **404**
+
+```js
+{
+  "id": 1,
+  "latitude": 186.44,
+  "longitude": 32.5005,
+  "payments": 1000,
+  "created_at": "2018-09-16T05:30:23.000Z",
+  "updated_at": "2018-09-16T05:30:23.000Z",
+  "group_id": 1,
+  "label_id": 1, // 라벨 미지정(0)일 시 null
+  "label": {     // 라벨 미지정(0)일 시 null
+    "id": 1,
+    "name": "흠",
+    "latitude": 186.44,
+    "longitude": 32.5005,
+    "importance": 3,
+    "created_at": "2018-09-16T05:26:50.000Z",
+    "updated_at": "2018-09-16T10:03:03.000Z",
+    "group_id": 1
+  }
+}
+```
+
+## `DELETE /activitylogs/{activitylog_id}`
+
+> 활동로그 삭제시 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    activitylog_id: number(PK)
+```
+
+### response
+
+Expectable status code: **204**, **400**, **401**, **403**, **404**
+
+```
+No Contents
 ```

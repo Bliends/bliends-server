@@ -1,7 +1,8 @@
 const models = require('./models')
+const { DB_RESET } = require('../config/constants')
 
 models.sequelize
-  .sync({ force: false })
+  .sync({ force: DB_RESET })
   .then(() => {
   console.log('✓ DB connection success.');
   })

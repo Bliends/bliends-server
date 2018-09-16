@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const location = sequelize.define('location', {
+  const activitylog = sequelize.define('activitylog', {
     id: {
       type: DataTypes.INTEGER({ length: 11 }),
       allowNull: false,
@@ -13,13 +13,17 @@ module.exports = (sequelize, DataTypes) => {
     longitude: {
       type: DataTypes.FLOAT,
       allowNull: false
-    }
+    },
+    payments: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
   },
   {
     underscored: true,
     freezeTableName: true,
-    tableName: 'location',
+    tableName: 'activitylog',
     timestamps: true
   })
-  return location
+  return activitylog
 }

@@ -32,15 +32,15 @@ db.group.belongsTo(db.user, { as: 'patient' })
 db.group.belongsTo(db.user, { as: 'caregiver' })
 
 // group has many chats
-db.chat.belongsTo(db.group, { as: 'group' })
-db.group.hasMany(db.chat, { as: 'chats' })
-
-// chat have a author
-db.chat.belongsTo(db.user, { as: 'author' })
-db.user.hasMany(db.chat, { as: 'chats' })
+db.label.belongsTo(db.group, { as: 'group' })
+db.group.hasMany(db.label, { as: 'labels' })
 
 // group has many location infos
-db.location.belongsTo(db.group, { as: 'group' })
-db.group.hasMany(db.location, { as: 'locations' })
+db.activitylog.belongsTo(db.group, { as: 'group' })
+db.group.hasMany(db.activitylog, { as: 'activitylogs' })
+
+// activitylog have a label
+db.activitylog.belongsTo(db.label, { as: 'label' })
+db.label.hasMany(db.activitylog, { as: 'activitylogs' })
 
 module.exports = db
