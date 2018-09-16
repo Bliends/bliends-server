@@ -9,6 +9,6 @@ const router = Router()
 router.get('/:id', filter, controller.retrieve)
 
 // 그룹 리스트 조회
-router.get('/', filter, controller.read)
+router.get('/', controller.read)
 
 module.exports = router
