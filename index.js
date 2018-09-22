@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('morgan')
-
+const fileupload = require('express-fileupload')
 const cors = require('cors')
 
 const constants = require('./config/constants')
@@ -23,7 +23,8 @@ app.use(
     extended: true
   })
 )
-app.use('/resources', express.static(`${__dirname}/resources`))
+app.use('/uploads', express.static(`${__dirname}/resources`))
+app.use(fileupload())
 app.use(cors())
 
 app.use(auth)

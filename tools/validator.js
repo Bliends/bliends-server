@@ -85,6 +85,24 @@ exports.CL_ACTIVITYLOG = [
   }
 ]
 
+exports.CL_HELP = [
+  {
+    property: 'latitude',
+    reg: /^\d+\.\d+$/,
+    message: "올바른 위도(latitude) 형식 (0.0)이 아닙니다. (latitude)"
+  },
+  {
+    property: 'longitude',
+    reg: /^\d+\.\d+$/,
+    message: "올바른 경도(longitude) 형식 (0.0)이 아닙니다. (longitude)"
+  },
+  {
+    property: 'situation',
+    reg: /^(R|M|L)$/,
+    message: "올바른 상황 타입(R,M,L)이 아닙니다. (situation)"
+  }
+]
+
 exports.checkProperty = (checkList, data, strict) => new Promise((resolve, reject) => {
   const result = {}
   Array.from(checkList).forEach(item => {

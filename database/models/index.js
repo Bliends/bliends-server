@@ -43,4 +43,8 @@ db.group.hasMany(db.activitylog, { as: 'activitylogs' })
 db.activitylog.belongsTo(db.label, { as: 'label' })
 db.label.hasMany(db.activitylog, { as: 'activitylogs' })
 
+// help request have a group
+db.help.belongsTo(db.group, { as: 'group' })
+db.group.hasMany(db.help, { as: 'helps' })
+
 module.exports = db
