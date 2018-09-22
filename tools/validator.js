@@ -21,8 +21,8 @@ exports.CL_USER = [
   },
   {
     property: 'phone',
-    reg: /^(?=.*)[0-9]{9,11}$/,
-    message: '올바른 전화번호를 기입해주세요. (phone)'
+    reg: /^010-\d{4}-\d{4}$/,
+    message: '올바른 휴대폰번호를 기입해주세요. (phone)'
   }
 ]
 
