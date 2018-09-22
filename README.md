@@ -37,6 +37,14 @@
 - `GET /activitylogs/{activitylog_id}`
 - `DELETE /activitylogs/{activitylog_id}`
 
+### `/helps`
+
+- `POST /helps`
+- `GET /helps`
+- `GET /helps/{help_id}`
+- `DELETE /helps/{help_id}`
+- Attached file path
+
 # Error response
 
 모든 PATH 에서 발생하는 에러 Body 는 동일한 형식을 갖춥니다.  
@@ -805,4 +813,168 @@ Expectable status code: **204**, **400**, **401**, **403**, **404**
 
 ```
 No Contents
+```
+
+# `/helps`
+
+## `POST /helps`
+
+> 도움요청을 생성(?) 할 시에 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request body (multipart)
+    latitude: number(float)
+    longitude: number(float)
+    situation: string(E,M,L)  // Emergency, Money, Lost
+    attachments?: file(image or audio file)
+```
+
+### response
+
+Expectable status code: **201**, **400**, **401**, **403**, **404**
+
+> `attachments` 가 null이면 `filename` 필드도 null로 지정됩니다. (M의 경우)
+
+```js
+{
+  "id": 2,
+  "latitude": 123.345,
+  "longitude": 94.4001,
+  "situation": "M",
+  "filename": null,
+  "created_at": "2018-09-22T19:03:07.000Z",
+  "updated_at": "2018-09-22T19:03:07.000Z",
+  "group_id": 1
+}
+```
+
+## `GET /helps`
+
+> 도움요청 리스트 조회 시 사용합니다.
+
+### request
+
+```http
+request query
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+    q?: string(JSON)검색 쿼리
+```
+
+#### 검색 쿼리 작성법
+
+- 조건이 한개일 시:
+
+```js
+{
+  "group_id": 12
+}
+```
+
+- 조건 AND 일 시:
+
+```js
+{
+  "$and": [
+    { "situation": "E" },
+    { "group_id": 5 }
+  ]
+}
+```
+
+- 조건 OR 일 시:
+
+```js
+{
+  "$or": [
+    { "situation": "M" },
+    { "group_id": 19 }
+  ]
+}
+```
+
+### response
+
+Expectable status code: **200**, **400**
+
+```js
+[
+  {
+    "id": 3,
+    "latitude": 123.345,
+    "longitude": 94.4001,
+    "situation": "R",
+    "filename": "12e60f1f-c9cf-4699-8272-157242eecd1f_test-record.mp3",
+    "created_at": "2018-09-22T19:05:02.000Z",
+    "updated_at": "2018-09-22T19:05:02.000Z",
+    "group_id": 1
+  }
+]
+```
+
+## `GET /helps/{help_id}`
+
+> 도움요청 조회시 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    help_id: number(PK)
+```
+
+### response
+
+Expectable status code: **200**, **400**, **401**, **403**, **404**
+
+```js
+{
+  "id": 2,
+  "latitude": 123.345,
+  "longitude": 94.4001,
+  "situation": "L",
+  "filename": "4b6e194a-1a88-4fdc-972d-ce57c4590dbd_test-image.jpeg",
+  "created_at": "2018-09-22T19:03:07.000Z",
+  "updated_at": "2018-09-22T19:03:07.000Z",
+  "group_id": 1
+}
+```
+
+## `DELETE /helps/{help_id}`
+
+> 도움요청 삭제시 사용합니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request params
+    help_id: number(PK)
+```
+
+### response
+
+Expectable status code: **204**, **400**, **401**, **403**, **404**
+
+```
+No Contents
+```
+
+## Attached file path
+
+```
+http://{hostname}/uploads/helps/{filename}
+```
+
+### Example
+
+```
+http://norr.uy.to:5000/uploads/helps/4b6e194a-1a88-4fdc-972d-ce57c4590dbd_test-image.jpeg
 ```

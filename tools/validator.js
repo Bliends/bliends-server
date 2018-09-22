@@ -98,8 +98,8 @@ exports.CL_HELP = [
   },
   {
     property: 'situation',
-    reg: /^(R|M|L)$/,
-    message: "올바른 상황 타입(R,M,L)이 아닙니다. (situation)"
+    reg: /^(E|M|L)$/,
+    message: "올바른 상황 타입(E,M,L)이 아닙니다. (situation)"
   }
 ]
 
