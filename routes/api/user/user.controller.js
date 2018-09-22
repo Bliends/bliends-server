@@ -33,6 +33,16 @@ exports.create = async (req, res) => {
         return raiseError(404, '존재하지 않는 사용자(환자)입니다.')
       }
 
+      const matched = await models.group.findOne({
+        where: {
+          patient_id: patient.id
+        }
+      })
+
+      if (matched) {
+        return raiseError(409, '이미 보호자가 매칭된 사용자(환자)입니다.')
+      }
+
       user = await user.save()
       const group = await models.group.create({})
       group.setPatient(patient)
