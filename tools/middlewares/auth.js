@@ -1,7 +1,7 @@
 const { verify } = require('jsonwebtoken')
 const { errorRes } = require('../responses');
 const constants = require('../../config/constants')
-const raiseError = require('../../../tools/raise-error')
+const raiseError = require('../raise-error')
 
 const models = require('../../database/models')
 
