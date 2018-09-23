@@ -4,6 +4,7 @@ const constants = require('../../config/constants')
 const raiseError = require('../raise-error')
 
 const models = require('../../database/models')
+const Op = models.sequelize.Op
 
 function verifyAuth(req) {
   return new Promise((resolve, reject) => {
@@ -27,8 +28,10 @@ exports.auth = async (req, res, next) => {
 
     const group = await models.group.findOne({
       where: {
-        patient_id: user.id,
-        caregiver_id: user.id
+        [Op.or]: [
+          { patient_id: req.user.id },
+          { caregiver_id: req.user.id }
+        ]
       }
     })
 
