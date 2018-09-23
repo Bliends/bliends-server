@@ -17,7 +17,7 @@ function verifyAuth(req) {
 exports.auth = async (req, res, next) => {
   try {
 
-    const id = verifyAuth(req)
+    const id = await verifyAuth(req)
 
     const user = await models.user.findById(id)
 
