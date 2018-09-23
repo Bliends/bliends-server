@@ -29,8 +29,8 @@ exports.auth = async (req, res, next) => {
     const group = await models.group.findOne({
       where: {
         [Op.or]: [
-          { patient_id: req.user.id },
-          { caregiver_id: req.user.id }
+          { patient_id: user.id },
+          { caregiver_id: user.id }
         ]
       }
     })
