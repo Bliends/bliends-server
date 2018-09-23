@@ -486,6 +486,8 @@ Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404*
 ### request
 
 ```http
+request headers
+    Authorization: string(token)
 request query
     limit?: number(가져올 자원 개수)
     offset?: number(건너 뛸 자원 개수)
@@ -687,6 +689,8 @@ Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404*
 ### request
 
 ```http
+request headers
+    Authorization: string(token)
 request query
     limit?: number(가져올 자원 개수)
     offset?: number(건너 뛸 자원 개수)
@@ -859,6 +863,8 @@ Expectable status code: **201**, **400**, **401**, **403**, **404**
 ### request
 
 ```http
+request headers
+    Authorization: string(token)
 request query
     limit?: number(가져올 자원 개수)
     offset?: number(건너 뛸 자원 개수)

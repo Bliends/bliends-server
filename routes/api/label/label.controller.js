@@ -64,9 +64,11 @@ exports.read = async (req, res) => {
     }
 
     const q = JSON.parse((req.query && req.query.q) ? req.query.q : '{}')
+
+    const q_authorized = Object.assign(q, { group_id: req.user.group_id })
     
     const labels = await models.label.findAll({
-      where: q,
+      where: q_authorized,
       limit: limit ? parseInt(limit) : null,
       offset: offset ? parseInt(offset) : null,
       order: [['created_at', 'DESC']]

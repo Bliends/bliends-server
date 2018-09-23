@@ -1,6 +1,7 @@
 const { verify } = require('jsonwebtoken')
 const { errorRes } = require('../responses');
 const constants = require('../../config/constants')
+const raiseError = require('../../../tools/raise-error')
 
 const models = require('../../database/models')
 
@@ -13,18 +14,33 @@ function verifyAuth(req) {
   })
 }
 
-exports.auth = (req, res, next) => {
-  Promise.resolve(req)
-    .then(verifyAuth)
-    .then(id => models.user.findById(id))
-    .then(user => {
-      req.user = user
-      return next()
+exports.auth = async (req, res, next) => {
+  try {
+
+    const id = verifyAuth(req)
+
+    const user = await models.user.findById(id)
+
+    if (!user) {
+      return raiseError(0, '')
+    }
+
+    const group = await models.group.findOne({
+      where: {
+        patient_id: user.id,
+        caregiver_id: user.id
+      }
     })
-    .catch(err => {
-      req.user = undefined
-      return next()
-    })
+
+    user.group_id = group ? group.id : null
+
+    req.user = user
+    return next()
+
+  } catch (err) {
+    req.user = undefined
+    return next()
+  }
 }
 
 exports.filter = (req, res, next) => {

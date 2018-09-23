@@ -12,7 +12,7 @@ router.post('/', filter, controller.create)
 router.get('/:id', filter, controller.retrieve)
 
 // 라벨 리스트 조회
-router.get('/', controller.read)
+router.get('/', filter, controller.read)
 
 // 라벨 수정
 router.patch('/:id', filter, controller.update)

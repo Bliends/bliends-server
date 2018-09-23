@@ -12,7 +12,7 @@ router.post('/', filter, controller.create)
 router.get('/:id', filter, controller.retrieve)
 
 // 도움요청 리스트 조회
-router.get('/', controller.read)
+router.get('/', filter, controller.read)
 
 // 도움요청 삭제
 router.delete('/:id', filter, controller.delete)
