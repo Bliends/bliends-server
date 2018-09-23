@@ -84,15 +84,6 @@ exports.read = async (req, res) => {
       raiseError(400, '올바른 JSON 포맷이 아닙니다. in Request params \'q\'')
     }
 
-    const group = await help.getGroup()
-
-    if (
-      group.patient_id !== req.user.id &&
-      group.caregiver_id !== req.user.id
-    ) {
-      return raiseError(403, '권한 거부되었습니다.')
-    }
-
     const q = JSON.parse((req.query && req.query.q) ? req.query.q : '{}')
 
     const q_authorized = Object.assign(q, { group_id: req.user.group_id })
