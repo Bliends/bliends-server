@@ -110,7 +110,7 @@ Expectable status code: **200**, **401**(Unauthorized)
   "userid": "TestUser1",
   "name": "홍길동",
   "type": "P",
-  "phone": "01012341234",
+  "phone": "010-1234-1234",
   "createdAt": "2018-07-22T10:58:05.209Z",
   "updatedAt": "2018-07-22T10:58:05.209Z"
 }
@@ -130,7 +130,7 @@ request body
     password: string(대소문자, 숫자 필수, 기호 선택)
     name: string(20자 이내 공백 불가)
     type: string('P' or 'C') P: 환자, C: 보호자
-    phone: string('-' 를 제외한 번호 9~11자)
+    phone: string('-' 를 포함한 번호 13자 [010-xxxx-xxxx])
 ```
 
 - `type`이 `P` 일 때: `phone`은 `type`이 `P`인 사용자와 중복될 수 없습니다.
@@ -149,7 +149,7 @@ Expectable status code: **200**, **400**, **409**(Conflict)
   "userid": "TestUser2",
   "name": "홍길동",
   "type": "P",
-  "phone": "01012341234",
+  "phone": "010-1234-1234",
   "createdAt": "2018-07-22T11:32:14.785Z",
   "updatedAt": "2018-07-22T11:32:14.785Z"
 }
@@ -162,7 +162,7 @@ Expectable status code: **200**, **400**, **409**(Conflict)
   "userid": "TestUser1",
   "name": "김범수",
   "type": "C",
-  "phone": "01012341234",
+  "phone": "010-1234-1234",
   "createdAt": "2018-07-29T04:10:35.098Z",
   "updatedAt": "2018-07-29T04:10:35.098Z"
 }
@@ -226,7 +226,7 @@ Expectable status code: **200**, **400**
     "userid": "TestUser2",
     "name": "홍길동",
     "type": "C",
-    "phone": "01012341234", // 보호자일 때는 환자 전화번호
+    "phone": "010-1234-1234", // 보호자일 때는 환자 전화번호
     "createdAt": "2018-07-22T11:32:14.785Z",
     "updatedAt": "2018-07-22T11:32:14.785Z"
   }
@@ -254,7 +254,7 @@ Expectable status code: **200**, **400**, **404**
   "userid": "TestUser2",
   "name": "홍길동",
   "type": "C",
-  "phone": "01012341234", // 보호자일 때는 환자 전화번호
+  "phone": "010-1234-1234", // 보호자일 때는 환자 전화번호
   "createdAt": "2018-07-22T11:32:14.785Z",
   "updatedAt": "2018-07-22T11:32:14.785Z"
 }
@@ -290,7 +290,7 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
   "userid": "TestUser2",
   "name": "홍길동",
   "type": "C",
-  "phone": "01012341234", // 보호자일 때는 환자 전화번호
+  "phone": "010-1234-1234", // 보호자일 때는 환자 전화번호
   "createdAt": "2018-07-22T11:32:14.785Z",
   "updatedAt": "2018-07-22T11:32:14.785Z"
 }
@@ -387,7 +387,7 @@ Expectable status code: **200**, **400**
       "userid": "testid1",
       "name": "테스트1",
       "type": "P",
-      "phone": "01012345678",
+      "phone": "010-1234-5678",
       "created_at": "2018-09-16T05:22:54.000Z",
       "updated_at": "2018-09-16T05:22:54.000Z"
     },
@@ -396,7 +396,7 @@ Expectable status code: **200**, **400**
       "userid": "testid2",
       "name": "테스트2",
       "type": "C",
-      "phone": "01012345678",
+      "phone": "010-1234-5678",
       "created_at": "2018-09-16T05:23:02.000Z",
       "updated_at": "2018-09-16T05:23:02.000Z"
     }
@@ -431,7 +431,7 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
     "userid": "testid1",
     "name": "테스트1",
     "type": "P",
-    "phone": "01012345678",
+    "phone": "010-1234-5678",
     "created_at": "2018-09-16T05:22:54.000Z",
     "updated_at": "2018-09-16T05:22:54.000Z"
   },
@@ -440,7 +440,7 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
     "userid": "testid2",
     "name": "테스트2",
     "type": "C",
-    "phone": "01012345678",
+    "phone": "010-1234-5678",
     "created_at": "2018-09-16T05:23:02.000Z",
     "updated_at": "2018-09-16T05:23:02.000Z"
   }
@@ -1008,13 +1008,13 @@ request query
 
 ### response
 
-> 인식횟수가 많은 순대로 정렬되어 응답합니다.
+> 기록횟수가 많은 순대로 정렬되어 응답합니다.
 
 * 라벨이 지정되지 않은 활동 로그는 제외됩니다 (결제 등)
 
 ```js
 [
-  { // '홈' 라벨을 총 10번 인식함
+  { // '홈' 라벨을 총 10번 기록함
     "count": 10,
     "label_id": 1,
     "label": {
@@ -1028,7 +1028,7 @@ request query
       "group_id": 1
     }
   },
-  { // '학교' 라벨을 총 6번 인식함
+  { // '학교' 라벨을 총 6번 기록함
     "count": 6,
     "label_id": 2,
     "label": {
@@ -1067,7 +1067,7 @@ request query
 
 ```js
 [
-  { // 9월 22일 총 7번 기록
+  { // 9월 22일 총 7번 기록함
     "month": 9,
     "date": 22,
     "count": 7
