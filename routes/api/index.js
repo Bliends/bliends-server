@@ -8,6 +8,7 @@ const group = require('./group')
 const label = require('./label')
 const activitylog = require('./activitylog')
 const help = require('./help')
+const dashboard = require('./dashboard')
 
 const router = Router()
 
@@ -17,6 +18,7 @@ router.use('/groups', group)
 router.use('/labels', label)
 router.use('/activitylogs', activitylog)
 router.use('/helps', help)
+router.use('/dashboard', dashboard)
 router.use(handle404)
 
 module.exports = router

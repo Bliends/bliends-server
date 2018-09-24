@@ -45,6 +45,11 @@
 - `DELETE /helps/{help_id}`
 - Attached file path
 
+### `/dashboard`
+
+- `GET /dashboard/by-label`
+- `GET /dashboard/by-date`
+
 # Error response
 
 모든 PATH 에서 발생하는 에러 Body 는 동일한 형식을 갖춥니다.  
@@ -983,4 +988,97 @@ http://{hostname}/uploads/helps/{filename}
 
 ```
 http://norr.uy.to:5000/uploads/helps/4b6e194a-1a88-4fdc-972d-ce57c4590dbd_test-image.jpeg
+```
+
+# `/dashboard`
+
+## `GET /dashboard/by-label`
+
+> 라벨별로 활동로그 기록수의 통계를 내어줍니다.
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request query
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+```
+
+### response
+
+> 인식횟수가 많은 순대로 정렬되어 응답합니다.
+
+```js
+[
+  { // '홈' 라벨을 총 10번 인식함
+    "count": 10,
+    "label_id": 1,
+    "label": {
+      "id": 1,
+      "name": "흠",
+      "latitude": 186.44,
+      "longitude": 32.5005,
+      "importance": 3,
+      "created_at": "2018-09-16T05:26:50.000Z",
+      "updated_at": "2018-09-16T10:03:03.000Z",
+      "group_id": 1
+    }
+  },
+  { // '학교' 라벨을 총 6번 인식함
+    "count": 6,
+    "label_id": 2,
+    "label": {
+      "id": 2,
+      "name": "학교",
+      "latitude": 187.9932,
+      "longitude": 32.0011,
+      "importance": 3,
+      "created_at": "2018-09-16T08:21:55.000Z",
+      "updated_at": "2018-09-16T08:21:55.000Z",
+      "group_id": 1
+    }
+  }
+]
+```
+
+## `GET /dashboard/by-date`
+
+> 날짜별로 활동로그 기록수의 통계를 내어줍니다.
+
+```
+
+### request
+
+```http
+request headers
+    Authorization: string(token)
+request query
+    limit?: number(가져올 자원 개수)
+    offset?: number(건너 뛸 자원 개수)
+```
+
+### response
+
+> 최신순으로 정렬되어 응답합니다.
+
+```js
+[
+  { // 9월 22일 총 7번 인식함
+    "month": 9,
+    "date": 22,
+    "count": 7
+  },
+  { // 9월 17일 총 3번 인식함
+    "month": 9,
+    "date": 17,
+    "count": 3
+  },
+  { // 9월 16일 총 4번 인식함
+    "month": 9,
+    "date": 16,
+    "count": 4
+  }
+]
 ```
