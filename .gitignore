@@ -1,6 +1,9 @@
 # dependencies
 /node_modules
 
+# media files
+/resources/helps
+
 # misc
 .DS_Store
 .env.local
