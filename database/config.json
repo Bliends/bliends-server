@@ -6,6 +6,6 @@
     "host": "localhost",
     "port": 3306,
     "dialect": "mysql",
-    "timezone": "Asia/Seoul"
+    "timezone": "+09:00"
   }
 }
