@@ -5,6 +5,7 @@
     "database": "bliends",
     "host": "localhost",
     "port": 3306,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "timezone": "Asia/Seoul"
   }
 }
