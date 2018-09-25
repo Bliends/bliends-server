@@ -24,6 +24,11 @@ exports.create = async (req, res) => {
       return raiseError(404, '아직 그룹이 생성되지 않았습니다.')
     }
 
+    // 안드로이드 비정상적 동작으로 예외적 처리
+    if (req.body && req.body.situation) {
+      req.body.situation = req.body.situation.replace(/(\'|\")/g, '')
+    }
+
     const validated = await checkProperty(CL_HELP, req.body, true)
 
     let filename = null
