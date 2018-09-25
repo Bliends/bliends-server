@@ -111,8 +111,8 @@ Expectable status code: **200**, **401**(Unauthorized)
   "name": "홍길동",
   "type": "P",
   "phone": "010-1234-1234",
-  "createdAt": "2018-07-22T10:58:05.209Z",
-  "updatedAt": "2018-07-22T10:58:05.209Z"
+  "createdAt": "2018-07-22 10:58:05",
+  "updatedAt": "2018-07-22 10:58:05"
 }
 ```
 
@@ -150,8 +150,8 @@ Expectable status code: **200**, **400**, **409**(Conflict)
   "name": "홍길동",
   "type": "P",
   "phone": "010-1234-1234",
-  "createdAt": "2018-07-22T11:32:14.785Z",
-  "updatedAt": "2018-07-22T11:32:14.785Z"
+  "createdAt": "2018-07-22 11:32:14",
+  "updatedAt": "2018-07-22 11:32:14"
 }
 ```
 
@@ -163,8 +163,8 @@ Expectable status code: **200**, **400**, **409**(Conflict)
   "name": "김범수",
   "type": "C",
   "phone": "010-1234-1234",
-  "createdAt": "2018-07-29T04:10:35.098Z",
-  "updatedAt": "2018-07-29T04:10:35.098Z"
+  "createdAt": "2018-07-29 04:10:35",
+  "updatedAt": "2018-07-29 04:10:35"
 }
 ```
 
@@ -227,8 +227,8 @@ Expectable status code: **200**, **400**
     "name": "홍길동",
     "type": "C",
     "phone": "010-1234-1234", // 보호자일 때는 환자 전화번호
-    "createdAt": "2018-07-22T11:32:14.785Z",
-    "updatedAt": "2018-07-22T11:32:14.785Z"
+    "createdAt": "2018-07-22 11:32:14",
+    "updatedAt": "2018-07-22 11:32:14"
   }
 ]
 ```
@@ -255,8 +255,8 @@ Expectable status code: **200**, **400**, **404**
   "name": "홍길동",
   "type": "C",
   "phone": "010-1234-1234", // 보호자일 때는 환자 전화번호
-  "createdAt": "2018-07-22T11:32:14.785Z",
-  "updatedAt": "2018-07-22T11:32:14.785Z"
+  "createdAt": "2018-07-22 11:32:14",
+  "updatedAt": "2018-07-22 11:32:14"
 }
 ```
 
@@ -291,8 +291,8 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
   "name": "홍길동",
   "type": "C",
   "phone": "010-1234-1234", // 보호자일 때는 환자 전화번호
-  "createdAt": "2018-07-22T11:32:14.785Z",
-  "updatedAt": "2018-07-22T11:32:14.785Z"
+  "createdAt": "2018-07-22 11:32:14",
+  "updatedAt": "2018-07-22 11:32:14"
 }
 ```
 
@@ -378,8 +378,8 @@ Expectable status code: **200**, **400**
 [
   {
     "id": 1,
-    "created_at": "2018-09-16T05:23:02.000Z",
-    "updated_at": "2018-09-16T05:23:02.000Z",
+    "created_at": "2018-09-16 05:23:02",
+    "updated_at": "2018-09-16 05:23:02",
     "patient_id": 1,
     "caregiver_id": 2,
     "patient": {
@@ -388,8 +388,8 @@ Expectable status code: **200**, **400**
       "name": "테스트1",
       "type": "P",
       "phone": "010-1234-5678",
-      "created_at": "2018-09-16T05:22:54.000Z",
-      "updated_at": "2018-09-16T05:22:54.000Z"
+      "created_at": "2018-09-16 05:22:54",
+      "updated_at": "2018-09-16 05:22:54"
     },
     "caregiver": {
       "id": 2,
@@ -397,8 +397,8 @@ Expectable status code: **200**, **400**
       "name": "테스트2",
       "type": "C",
       "phone": "010-1234-5678",
-      "created_at": "2018-09-16T05:23:02.000Z",
-      "updated_at": "2018-09-16T05:23:02.000Z"
+      "created_at": "2018-09-16 05:23:02",
+      "updated_at": "2018-09-16 05:23:02"
     }
   }
 ]
@@ -422,8 +422,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
 ```js
 {
   "id": 1,
-  "created_at": "2018-09-16T05:23:02.000Z",
-  "updated_at": "2018-09-16T05:23:02.000Z",
+  "created_at": "2018-09-16 05:23:02",
+  "updated_at": "2018-09-16 05:23:02",
   "patient_id": 1,
   "caregiver_id": 2,
   "patient": {
@@ -432,8 +432,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
     "name": "테스트1",
     "type": "P",
     "phone": "010-1234-5678",
-    "created_at": "2018-09-16T05:22:54.000Z",
-    "updated_at": "2018-09-16T05:22:54.000Z"
+    "created_at": "2018-09-16 05:22:54",
+    "updated_at": "2018-09-16 05:22:54"
   },
   "caregiver": {
     "id": 2,
@@ -441,8 +441,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
     "name": "테스트2",
     "type": "C",
     "phone": "010-1234-5678",
-    "created_at": "2018-09-16T05:23:02.000Z",
-    "updated_at": "2018-09-16T05:23:02.000Z"
+    "created_at": "2018-09-16 05:23:02",
+    "updated_at": "2018-09-16 05:23:02"
   }
 }
 ```
@@ -478,8 +478,8 @@ Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404*
   "latitude": 186.44002,
   "longitude": 32.5005321,
   "importance": 3,
-  "updated_at": "2018-09-16T08:21:55.236Z",
-  "created_at": "2018-09-16T08:21:55.210Z",
+  "updated_at": "2018-09-16 08:21:55",
+  "created_at": "2018-09-16 08:21:55",
   "group_id": 1
 }
 ```
@@ -543,8 +543,8 @@ Expectable status code: **200**, **400**
     "latitude": 186.44,
     "longitude": 32.5005,
     "importance": 3,
-    "created_at": "2018-09-16T08:21:55.000Z",
-    "updated_at": "2018-09-16T08:21:55.000Z",
+    "created_at": "2018-09-16 08:21:55",
+    "updated_at": "2018-09-16 08:21:55",
     "group_id": 1
   }
 ]
@@ -574,8 +574,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
   "latitude": 186.44002,
   "longitude": 32.5005321,
   "importance": 3,
-  "created_at": "2018-09-16T05:26:50.000Z",
-  "updated_at": "2018-09-16T10:03:03.592Z",
+  "created_at": "2018-09-16 05:26:50",
+  "updated_at": "2018-09-16 10:03:03",
   "group_id": 1
 }
 ```
@@ -611,8 +611,8 @@ Expectable status code: **200**, **400**, **401**(Unauthorized), **403**, **404*
   "latitude": 186.44002,
   "longitude": 32.5005321,
   "importance": 3,
-  "created_at": "2018-09-16T05:26:50.000Z",
-  "updated_at": "2018-09-16T10:03:03.592Z",
+  "created_at": "2018-09-16 05:26:50",
+  "updated_at": "2018-09-16 10:03:03",
   "group_id": 1
 }
 ```
@@ -670,8 +670,8 @@ Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404*
   "latitude": 170.3,
   "longitude": 32.5005,
   "payments": 1000,
-  "created_at": "2018-09-16T10:22:48.000Z",
-  "updated_at": "2018-09-16T10:22:48.000Z",
+  "created_at": "2018-09-16 10:22:48",
+  "updated_at": "2018-09-16 10:22:48",
   "group_id": 1,
   "label_id": 2, // 라벨 미지정(0)일 시 null
   "label": {     // 라벨 미지정(0)일 시 null
@@ -680,8 +680,8 @@ Expectable status code: **201**, **400**, **401**(Unauthorized), **403**, **404*
     "latitude": 186.44,
     "longitude": 32.5005,
     "importance": 3,
-    "created_at": "2018-09-16T08:21:55.000Z",
-    "updated_at": "2018-09-16T08:21:55.000Z",
+    "created_at": "2018-09-16 08:21:55",
+    "updated_at": "2018-09-16 08:21:55",
     "group_id": 1
   }
 }
@@ -745,8 +745,8 @@ Expectable status code: **200**, **400**
     "latitude": 170.3,
     "longitude": 32.5005,
     "payments": 1000,
-    "created_at": "2018-09-16T10:22:48.000Z",
-    "updated_at": "2018-09-16T10:22:48.000Z",
+    "created_at": "2018-09-16 10:22:48",
+    "updated_at": "2018-09-16 10:22:48",
     "group_id": 1,
     "label_id": 2, // 라벨 미지정(0)일 시 null
     "label": {     // 라벨 미지정(0)일 시 null
@@ -755,8 +755,8 @@ Expectable status code: **200**, **400**
       "latitude": 186.44,
       "longitude": 32.5005,
       "importance": 3,
-      "created_at": "2018-09-16T08:21:55.000Z",
-      "updated_at": "2018-09-16T08:21:55.000Z",
+      "created_at": "2018-09-16 08:21:55",
+      "updated_at": "2018-09-16 08:21:55",
       "group_id": 1
     }
   }
@@ -786,8 +786,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
   "latitude": 186.44,
   "longitude": 32.5005,
   "payments": 1000,
-  "created_at": "2018-09-16T05:30:23.000Z",
-  "updated_at": "2018-09-16T05:30:23.000Z",
+  "created_at": "2018-09-16 05:30:23",
+  "updated_at": "2018-09-16 05:30:23",
   "group_id": 1,
   "label_id": 1, // 라벨 미지정(0)일 시 null
   "label": {     // 라벨 미지정(0)일 시 null
@@ -796,8 +796,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
     "latitude": 186.44,
     "longitude": 32.5005,
     "importance": 3,
-    "created_at": "2018-09-16T05:26:50.000Z",
-    "updated_at": "2018-09-16T10:03:03.000Z",
+    "created_at": "2018-09-16 05:26:50",
+    "updated_at": "2018-09-16 10:03:03",
     "group_id": 1
   }
 }
@@ -855,8 +855,8 @@ Expectable status code: **201**, **400**, **401**, **403**, **404**
   "longitude": 94.4001,
   "situation": "M",
   "filename": null,
-  "created_at": "2018-09-22T19:03:07.000Z",
-  "updated_at": "2018-09-22T19:03:07.000Z",
+  "created_at": "2018-09-22 19:03:07",
+  "updated_at": "2018-09-22 19:03:07",
   "group_id": 1
 }
 ```
@@ -920,8 +920,8 @@ Expectable status code: **200**, **400**
     "longitude": 94.4001,
     "situation": "R",
     "filename": "12e60f1f-c9cf-4699-8272-157242eecd1f_test-record.mp3",
-    "created_at": "2018-09-22T19:05:02.000Z",
-    "updated_at": "2018-09-22T19:05:02.000Z",
+    "created_at": "2018-09-22 19:05:02",
+    "updated_at": "2018-09-22 19:05:02",
     "group_id": 1
   }
 ]
@@ -951,8 +951,8 @@ Expectable status code: **200**, **400**, **401**, **403**, **404**
   "longitude": 94.4001,
   "situation": "L",
   "filename": "4b6e194a-1a88-4fdc-972d-ce57c4590dbd_test-image.jpeg",
-  "created_at": "2018-09-22T19:03:07.000Z",
-  "updated_at": "2018-09-22T19:03:07.000Z",
+  "created_at": "2018-09-22 19:03:07",
+  "updated_at": "2018-09-22 19:03:07",
   "group_id": 1
 }
 ```
@@ -1023,8 +1023,8 @@ request query
       "latitude": 186.44,
       "longitude": 32.5005,
       "importance": 3,
-      "created_at": "2018-09-16T05:26:50.000Z",
-      "updated_at": "2018-09-16T10:03:03.000Z",
+      "created_at": "2018-09-16 05:26:50",
+      "updated_at": "2018-09-16 10:03:03",
       "group_id": 1
     }
   },
@@ -1037,8 +1037,8 @@ request query
       "latitude": 187.9932,
       "longitude": 32.0011,
       "importance": 3,
-      "created_at": "2018-09-16T08:21:55.000Z",
-      "updated_at": "2018-09-16T08:21:55.000Z",
+      "created_at": "2018-09-16 08:21:55",
+      "updated_at": "2018-09-16 08:21:55",
       "group_id": 1
     }
   }
