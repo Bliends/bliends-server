@@ -1,4 +1,5 @@
 const { encryptPW } = require('../../tools/password')
+const moment = require('moment')
 
 module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define('user', {
@@ -27,13 +28,28 @@ module.exports = (sequelize, DataTypes) => {
     phone: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: Date.now,
+      allowNull: false,
+      get: function () {
+        return moment(this.getDataValue('created_at')).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      defaultValue: Date.now,
+      allowNull: false,
+      get: function () {
+        return moment(this.getDataValue('updated_at')).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
   },
   {
     underscored: true,
     freezeTableName: true,
     tableName: 'user',
-    timestamps: true
   })
 
   user.beforeSave((user, options) => {

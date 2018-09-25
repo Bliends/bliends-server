@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = (sequelize, DataTypes) => {
   const label = sequelize.define('label', {
     id: {
@@ -21,13 +23,28 @@ module.exports = (sequelize, DataTypes) => {
     importance: {
       type: DataTypes.INTEGER,
       allowNull: false
-    }
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: Date.now,
+      allowNull: false,
+      get: function () {
+        return moment(this.getDataValue('created_at')).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      defaultValue: Date.now,
+      allowNull: false,
+      get: function () {
+        return moment(this.getDataValue('updated_at')).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
   },
   {
     underscored: true,
     freezeTableName: true,
     tableName: 'label',
-    timestamps: true
   })
   return label
 }
