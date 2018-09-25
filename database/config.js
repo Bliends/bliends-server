@@ -7,16 +7,6 @@ const config = {
     port: 3306,
     dialect: 'mysql',
     timezone: 'Asia/Seoul',
-    dialectOptions: {
-      useUTC: false,
-      dateStrings: true,
-      typeCast: (field, next) => {
-        if (field.type === 'DATETIME') {
-          return field.string()
-        }
-        return next()
-      }
-    }
   }
 }
 
