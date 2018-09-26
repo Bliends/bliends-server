@@ -8,6 +8,8 @@ const Op = models.sequelize.Op
 const fs = require('fs-extra')
 const uuidv4 = require('uuid/v4')
 
+const { sendHelpFCM } = require('../../../tools/push-fcm')
+
 exports.create = async (req, res) => {
   try {
     
@@ -47,6 +49,9 @@ exports.create = async (req, res) => {
     let help = await models.help.create(validated)
 
     await help.setGroup(group)
+
+    // 보호자에게 FCM 전송 (/topics/{caregiver_id})
+    await sendHelpFCM(group.caregiver_id, help.situation)
 
     return objectRes(201, help, res)
 

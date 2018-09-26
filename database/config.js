@@ -1,7 +1,7 @@
 const config = {
   development: {
     username: 'root',
-    password: 'Asdf!234',
+    password: 'Okok7882@',
     database: 'bliends',
     host: 'localhost',
     port: 3306,
